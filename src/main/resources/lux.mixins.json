@@ -1,0 +1,18 @@
+{
+    "required": true,
+    "package": "com.lux.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "refmap": "lux.refmap.json",
+    "mixins": [],
+    "client": [
+        "ZoomMixin",
+        "FullbrightMixin",
+        "ToggleSprintMixin",
+        "MouseMixin",
+        "TitleScreenMixin",
+        "SplashOverlayMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 0
+    }
+}
