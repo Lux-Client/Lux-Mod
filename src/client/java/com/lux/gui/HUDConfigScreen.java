@@ -1,6 +1,6 @@
 package com.lux.gui;
 
-import com.lux.config.HUDConfig;
+import com.lux.HUDConfig;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;

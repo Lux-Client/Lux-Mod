@@ -1,6 +1,7 @@
 package com.lux.mixin;
 
-import com.lux.config.HUDConfig;
+import com.lux.HUDConfig;
+import com.lux.ModCompat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.SimpleOption;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,12 +14,12 @@ public class SimpleOptionMixin<T> {
 
     @Inject(method = "getValue", at = @At("HEAD"), cancellable = true)
     private void onGetValue(CallbackInfoReturnable<T> cir) {
-        // We only want to modify the result if this SimpleOption is the Gamma option
+        if (!ModCompat.isFullbrightAvailable()) return;
+
         MinecraftClient client = MinecraftClient.getInstance();
         if (client != null && client.options != null && client.options.getGamma() == (Object) this) {
             HUDConfig.ModuleData fbModule = HUDConfig.getInstance().getModule("Fullbright");
             if (fbModule != null && fbModule.enabled) {
-                // Return 100.0 (10000% brightness) to simulate perfect fullbright
                 @SuppressWarnings("unchecked")
                 T fullbrightValue = (T) Double.valueOf(100.0);
                 cir.setReturnValue(fullbrightValue);

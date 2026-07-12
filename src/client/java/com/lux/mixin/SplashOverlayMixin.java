@@ -28,7 +28,7 @@ public abstract class SplashOverlayMixin {
     @Shadow private boolean reloading;
 
     private Consumer<Optional<Throwable>> lux$exceptionHandler;
-    private float smoothedProgress = 0.0f;
+    private float lux$smoothedProgress = 0.0f;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void initAdjustments(MinecraftClient client, ResourceReload reload,
@@ -55,8 +55,8 @@ public abstract class SplashOverlayMixin {
 
         float rawProgress = this.reload.getProgress();
         if (rawProgress >= 0.95f) rawProgress = 1.0f;
-        this.smoothedProgress = MathHelper.lerp(0.15f, this.smoothedProgress, rawProgress);
-        if (this.smoothedProgress >= 0.99f) this.smoothedProgress = 1.0f;
+        this.lux$smoothedProgress = MathHelper.lerp(0.15f, this.lux$smoothedProgress, rawProgress);
+        if (this.lux$smoothedProgress >= 0.99f) this.lux$smoothedProgress = 1.0f;
 
         if (fadeOut >= 1.0F) {
             this.client.setOverlay(null);
@@ -105,7 +105,6 @@ public abstract class SplashOverlayMixin {
 
             net.minecraft.text.Text title = net.minecraft.text.Text.literal("Lux")
                     .formatted(net.minecraft.util.Formatting.GREEN);
-            int titleWidth = this.client.textRenderer.getWidth(title) * 2;
             context.getMatrices().push();
             context.getMatrices().translate(width / 2.0, height / 2.0 - 20, 0);
             context.getMatrices().scale(2.0f, 2.0f, 1.0f);
@@ -122,7 +121,7 @@ public abstract class SplashOverlayMixin {
             int fillColor = (progressAlpha << 24) | 0x55FF55;
 
             context.fill(barX, barY, barX + barWidth, barY + barHeight, bgColor);
-            int fillWidth = (int) (barWidth * this.smoothedProgress);
+            int fillWidth = (int) (barWidth * this.lux$smoothedProgress);
             if (fillWidth > 0) {
                 context.fill(barX, barY, barX + fillWidth, barY + barHeight, fillColor);
             }

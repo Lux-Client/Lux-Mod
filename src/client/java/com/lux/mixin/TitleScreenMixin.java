@@ -1,9 +1,7 @@
 package com.lux.mixin;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.Element;
 import net.minecraft.text.TranslatableTextContent;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,7 +26,11 @@ public abstract class TitleScreenMixin extends net.minecraft.client.gui.screen.S
                 net.minecraft.text.Text.literal("Mods"),
                 button -> {
                     if (this.client != null) {
-                        this.client.setScreen(new com.lux.gui.LunarSettingsScreen());
+                        try {
+                            Class<?> clazz = Class.forName("com.lux.gui.LunarSettingsScreen");
+                            this.client.setScreen((net.minecraft.client.gui.screen.Screen) clazz.getDeclaredConstructor().newInstance());
+                        } catch (Exception ignored) {
+                        }
                     }
                 }).dimensions(4, 4, 60, 20).build());
     }

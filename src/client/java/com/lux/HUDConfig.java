@@ -1,9 +1,8 @@
-package com.lux.config;
+package com.lux;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.lux.LuxModClient;
-import net.fabricmc.loader.api.FabricLoader;
+import com.lux.platform.PlatformHelper;
 
 import java.io.File;
 import java.io.FileReader;
@@ -15,26 +14,39 @@ import java.util.Map;
 public class HUDConfig {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final File CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(),
-            "lux_hud.json");
+    private static File CONFIG_FILE;
 
     private Map<String, ModuleData> modules = new HashMap<>();
 
-    // Singleton instance
     private static HUDConfig instance;
 
     public static HUDConfig getInstance() {
         if (instance == null) {
             instance = new HUDConfig();
-            instance.load();
+            if (PlatformHelper.getInstance() != null) {
+                CONFIG_FILE = new File(
+                        PlatformHelper.getInstance().getConfigDirectory().toFile(),
+                        "lux_hud.json");
+                instance.load();
+            }
         }
         return instance;
+    }
+
+    public static void reload() {
+        if (PlatformHelper.getInstance() != null) {
+            CONFIG_FILE = new File(
+                    PlatformHelper.getInstance().getConfigDirectory().toFile(),
+                    "lux_hud.json");
+            if (instance != null) {
+                instance.load();
+            }
+        }
     }
 
     private HUDConfig() {
         modules.put("FPS Counter", new ModuleData("FPS Counter", true, 10, 10));
         modules.put("Fullbright", new ModuleData("Fullbright", false, 10, 50));
-        // Add some dummy modules to demonstrate dragging & scrolling
         modules.put("Keystrokes", new ModuleData("Keystrokes", true, 10, 90));
         modules.put("Armor Status", new ModuleData("Armor Status", false, 10, 130));
         modules.put("Potion Effects", new ModuleData("Potion Effects", true, 10, 170));
@@ -43,6 +55,7 @@ public class HUDConfig {
     }
 
     public void load() {
+        if (CONFIG_FILE == null) return;
         if (CONFIG_FILE.exists()) {
             try (FileReader reader = new FileReader(CONFIG_FILE)) {
                 HUDConfig loaded = GSON.fromJson(reader, HUDConfig.class);
@@ -51,8 +64,6 @@ public class HUDConfig {
                         if (this.modules.containsKey(entry.getKey())) {
                             ModuleData defaultData = this.modules.get(entry.getKey());
                             ModuleData loadedData = entry.getValue();
-
-                            // Restore transient variables and update values
                             loadedData.defaultX = defaultData.defaultX;
                             loadedData.defaultY = defaultData.defaultY;
                             loadedData.defaultMode = defaultData.defaultMode;
@@ -64,11 +75,12 @@ public class HUDConfig {
                 System.err.println("Failed to load HUD config: " + e.getMessage());
             }
         } else {
-            save(); // Create default config if it doesn't exist
+            save();
         }
     }
 
     public void save() {
+        if (CONFIG_FILE == null) return;
         try {
             if (!CONFIG_FILE.getParentFile().exists()) {
                 CONFIG_FILE.getParentFile().mkdirs();
@@ -103,8 +115,8 @@ public class HUDConfig {
         public boolean enabled;
         public int x;
         public int y;
-        public int mode = 0; // 0 = Standard/Detailed, 1 = Minimal/Compact, etc.
-        public boolean showPercentage = false; // Armor Status specific: show % or exact
+        public int mode = 0;
+        public boolean showPercentage = false;
         public transient int defaultX;
         public transient int defaultY;
         public transient int defaultMode = 0;
