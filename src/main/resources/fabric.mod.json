@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "lux",
   "version": "${version}",
-  "name": "Lux Config",
-  "description": "Custom GUI for Lux",
+  "name": "Lux Client",
+  "description": "A lightweight client mod for Minecraft",
   "authors": [
     "Me!"
   ],

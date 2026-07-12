@@ -1,0 +1,16 @@
+{
+	"required": true,
+	"package": "com.lux.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"SimpleOptionMixin",
+		"SplashTextRendererMixin",
+		"TitleScreenMixin",
+		"SplashOverlayMixin",
+		"MouseMixin",
+		"LogoDrawerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 0
+	}
+}
