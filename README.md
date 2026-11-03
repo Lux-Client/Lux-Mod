@@ -1,35 +1,10 @@
-# Lux Client
+# Lux Client Mod
 
-A lightweight Minecraft client mod for Fabric.
+Hier gibt es die fertigen Jars der Lux Client Mod für Fabric:
+**[Releases](https://github.com/Lux-Client/Lux-Mod/releases)**
 
-## Features
+Die passende Jar (`Lux-Client-mc<Minecraft-Version>-<Version>.jar`) in den `mods`-Ordner legen.
+Braucht Fabric und die Fabric API. Noch einfacher: im [Lux Launcher](https://github.com/Lux-Client/Lux-Client)
+bei einer passenden Instanz auf „Lux Client installieren“ drücken.
 
-- **Title Screen**: Custom "Lux" branding with green theme
-- **Splash Screen**: Custom gradient background with animated progress bar
-- **HUD**: FPS, CPS, Armor Status, Ping, Potion Effects (toggle with Right Shift)
-- **Fullbright**: Built-in fullbright with Sodium/OptiFine/Iris compatibility
-
-## Supported Loaders
-
-| Loader | MC Version | Status |
-|--------|------------|--------|
-| Fabric | 1.21.1 | ✅ Supported |
-| Quilt | 1.21.1 | ✅ Via Fabric compatibility |
-
-## Build
-
-```bash
-./gradlew build
-```
-
-Output: `fabric/build/libs/lux-fabric-1.0.0.jar`
-
-## Compatibility
-
-**Known incompatible mods:**
-- Lunar Client, Badlion Client
-- FPS Reducer
-- Custom loading screen mods
-
-**Compatible:**
-- Sodium, OptiFine, Iris (Fullbright auto-disables)
+Unterstützt: Minecraft 1.21.11, 1.21.8, 26.2 und 1.20.1 (Fabric).
